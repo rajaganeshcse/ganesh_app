@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "656401241237",
+    "project_id": "ganesh-4f9b0",
+    "storage_bucket": "ganesh-4f9b0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656401241237:android:7dbd08a7227a3bfe4eb79c",
+        "android_client_info": {
+          "package_name": "com.example.ganesh1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWKAQx2wLrpCCpoWEHNpseUxXMHoQcHSI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
