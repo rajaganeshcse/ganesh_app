@@ -1,58 +1,100 @@
 package com.example.ganesh1;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.*;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 public class activity_home extends AppCompatActivity {
 
-    TextView txtWelcome;
-    LinearLayout nav_home, nav_map, nav_logout, nav_settings;
-    TextView headerTitle;
+    DrawerLayout drawer;
 
+    ImageView btnMenu,headerProfile;
+
+    // ✅ Content Screens
+    LinearLayout contentHome, contentMap, contentSMS, contentSettings;
+
+    // ✅ Footer Navigation
+    LinearLayout navHome, navMap, navSMS, navSettings;
+
+    LinearLayout leftMenu;
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        // Header
-        headerTitle = findViewById(R.id.headerTitle);
+        // Drawer
+        drawer = findViewById(R.id.drawerLayout);
+        leftMenu = findViewById(R.id.leftMenu);
+        headerProfile=findViewById(R.id.headerProfile);
 
-        // Body
-        txtWelcome = findViewById(R.id.txtWelcome);
+        btnMenu = findViewById(R.id.btnMenu);
 
-        // Footer
-        nav_home = findViewById(R.id.nav_home);
-        nav_map = findViewById(R.id.nav_map);
-        nav_logout = findViewById(R.id.nav_settings);
-        nav_settings = findViewById(R.id.nav_settings);
+        // ✅ Get Content Layouts
+        contentHome     = findViewById(R.id.contentHome);
+        contentMap      = findViewById(R.id.contentmap);     // ✅ FIXED
+        contentSMS      = findViewById(R.id.contentSMS);
+        contentSettings = findViewById(R.id.contentSettings);
 
-        // Set welcome message
-        String email = getIntent().getStringExtra("email");
-        if (email != null) {
-            txtWelcome.setText("Welcome, " + email + " 👋");
+        // ✅ Footer Navigation Buttons
+        navHome     = findViewById(R.id.nav_home);
+        navMap      = findViewById(R.id.nav_map);
+        navSMS      = findViewById(R.id.nav_sms);
+        navSettings = findViewById(R.id.nav_settings);
+
+        // ✅ Open Drawer (LEFT)
+        btnMenu.setOnClickListener(v -> drawer.openDrawer(Gravity.LEFT));
+        headerProfile.setOnClickListener(v -> {
+
+        Intent intent = new Intent(activity_home.this, search_user.class);
+        startActivity(intent); });
+
+        // ✅ Footer Navigation Clicks
+        navHome.setOnClickListener(v -> showScreen(1));
+        navMap.setOnClickListener(v -> showScreen(2));
+        navSMS.setOnClickListener(v -> showScreen(3));
+        navSettings.setOnClickListener(v -> showScreen(4));
+
+        // ✅ Default Screen
+        showScreen(1);
+    }
+
+    private void showScreen(int id) {
+
+        // ✅ Hide all content
+        contentHome.setVisibility(View.GONE);
+        contentMap.setVisibility(View.GONE);
+        contentSMS.setVisibility(View.GONE);
+        contentSettings.setVisibility(View.GONE);
+
+        // ✅ Show selected screen
+        switch (id) {
+            case 1:
+                contentHome.setVisibility(View.VISIBLE);
+                break;
+
+            case 2:
+                contentMap.setVisibility(View.VISIBLE);
+                break;
+
+            case 3:
+                contentSMS.setVisibility(View.VISIBLE);
+                break;
+
+            case 4:
+                contentSettings.setVisibility(View.VISIBLE);
+                break;
         }
 
-        // Footer navigation clicks
-        nav_home.setOnClickListener(v ->
-                Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show());
-
-        nav_map.setOnClickListener(v ->
-                Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show());
-
-        // ✅ Open Settings Activity
-        nav_settings.setOnClickListener(v -> {
-            Intent intent = new Intent(this,MainActivity.class);
-            startActivity(intent);
-        });
-
-        // ✅ Logout and go to MainActivity
-        nav_logout.setOnClickListener(v -> {
-            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this,SettingsActivity.class);
-            startActivity(intent);
-            finish();
-        });
+        // ✅ Close Drawer if open
+        drawer.closeDrawer(Gravity.LEFT);
     }
 }

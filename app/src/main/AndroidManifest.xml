@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
- package="com.example.ganesh1"
->
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    package="com.example.ganesh1">
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,8 +13,23 @@
         android:label="Ganesh"
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Ganesh1"
-        >
+        android:theme="@style/Theme.Ganesh1">
+        <activity
+            android:name=".search_user"
+            android:exported="false"
+            android:theme="@style/Theme.Ganesh1" />
+        <activity
+            android:name=".username_activity"
+            android:exported="false"
+            android:theme="@style/Theme.Ganesh1" />
+        <activity
+            android:name=".activity_otp_verify"
+            android:exported="false"
+            android:theme="@style/Theme.Ganesh1" />
+        <activity
+            android:name=".activity_otp_verify"
+            android:exported="false"
+            android:theme="@style/Theme.Ganesh1" />
         <activity
             android:name=".SettingsActivity"
             android:exported="false"
@@ -37,6 +52,7 @@
             android:name=".activity_register"
             android:exported="false"
             android:theme="@style/Theme.Ganesh1" />
+        <activity android:name=".plogin_activity" />
     </application>
 
 </manifest>
