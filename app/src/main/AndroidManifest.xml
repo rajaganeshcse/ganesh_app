@@ -15,6 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ganesh1">
         <activity
+            android:name=".chat"
+            android:exported="false"
+            android:theme="@style/Theme.Ganesh1" />
+        <activity
             android:name=".search_user"
             android:exported="false"
             android:theme="@style/Theme.Ganesh1" />

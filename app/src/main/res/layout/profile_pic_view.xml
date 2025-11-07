@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="48dp"
+    android:layout_height="48dp">
+
+    <ImageView
+        android:id="@+id/profile_pic"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/person_icon"
+        android:background="@color/off_white"
+        android:scaleType="centerCrop"
+        android:layout_centerInParent="true"
+        android:padding="6dp"
+        android:clipToOutline="true" />
+
+</RelativeLayout>

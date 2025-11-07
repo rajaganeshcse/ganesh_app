@@ -41,6 +41,7 @@ public class activity_otp_verify extends AppCompatActivity {
         loginNextBtn = findViewById(R.id.login_next_btn);
         loginProgressBar = findViewById(R.id.login_progress_bar);
         resendOtpTextview = findViewById(R.id.resend_otp_textview);
+        loginOtp.requestFocus();
 
         mAuth = FirebaseAuth.getInstance();
 

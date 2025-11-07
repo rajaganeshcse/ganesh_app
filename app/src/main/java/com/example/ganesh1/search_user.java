@@ -42,7 +42,7 @@ public class search_user extends AppCompatActivity {
         // Search button
         searchButton.setOnClickListener(v -> {
 
-            String searchTerm = searchInput.getText().toString().trim();
+            String searchTerm = searchInput.getText().toString();
 
             if(searchTerm.isEmpty() || searchTerm.length() < 3){
                 searchInput.setError("Enter at least 3 letters");
