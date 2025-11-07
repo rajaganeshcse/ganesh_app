@@ -20,16 +20,25 @@ public class UserModel {
         this.profileImage = profileImage;
     }
 
-    public UserModel(String username, String email, String username1) {
+    public UserModel()
+    {}
 
-        this.username = username;
-        this.email = email;
-
+    public UserModel(String s, String s1, String username) {
     }
 
-    public String getUsername() { return username; }
+
     public String getEmail() { return email; }
+
+    public void setUserId(String userId) { this.userId = userId; }
+
     public String getPhone() { return phone; }
-    public String getUserId() { return userId; }
+    public void setPhone(String phone) { this.phone = phone; }
+
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+
     public String getProfileImage() { return profileImage; }
+
+    public void setProfileImage(String profileImage) { this.profileImage = profileImage; }
 }
+

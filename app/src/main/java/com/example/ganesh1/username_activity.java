@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.example.ganesh1.model.UserModel;
 import com.example.ganesh1.utils.FirebaseUtil;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class username_activity extends AppCompatActivity {
 
@@ -34,7 +36,6 @@ public class username_activity extends AppCompatActivity {
     }
 
     private void saveUsername() {
-
         String username = usernameEt.getText().toString().trim();
 
         if (username.isEmpty() || username.length() < 3) {
@@ -45,33 +46,31 @@ public class username_activity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         btnLetMeIn.setEnabled(false);
 
-        // ✅ CORRECT - DO NOT USE new String[]
-        UserModel model = new UserModel(
-                FirebaseUtil.currentUserId(),      // UID
-                FirebaseUtil.currentUserPhone(),   // Phone number
-                username                           // Username
-        );
+        // ✅ Create a user model object
+        UserModel user = new UserModel();
+        user.setUserId(FirebaseUtil.currentUserId());
+        user.setPhone(FirebaseUtil.currentUserPhone());
+        user.setUsername(username);
+        user.setProfileImage(""); // optional: can set later
 
-        FirebaseUtil.currentUserDatabaseRef()
-                .setValue(model)
-                .addOnCompleteListener(task -> {
+        // ✅ Save to Firestore instead of Firebase DB
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference userRef = db.collection("users").document(FirebaseUtil.currentUserId());
 
+        userRef.set(user)
+                .addOnSuccessListener(aVoid -> {
                     progressBar.setVisibility(View.GONE);
                     btnLetMeIn.setEnabled(true);
+                    Toast.makeText(this, "Username saved successfully!", Toast.LENGTH_SHORT).show();
 
-                    if (task.isSuccessful()) {
-
-                        Toast.makeText(this, "Username saved!", Toast.LENGTH_SHORT).show();
-
-                        Intent intent = new Intent(username_activity.this, activity_home.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-
-                    } else {
-                        Toast.makeText(this,
-                                "Failed: " + task.getException().getMessage(),
-                                Toast.LENGTH_SHORT).show();
-                    }
+                    Intent intent = new Intent(username_activity.this, activity_home.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                })
+                .addOnFailureListener(e -> {
+                    progressBar.setVisibility(View.GONE);
+                    btnLetMeIn.setEnabled(true);
+                    Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 }
