@@ -11,6 +11,7 @@ public class UserModel {
     private String fcmToken;
 
 
+
     public UserModel(String username, String email, String phone, String userId, String profileImage) {
         this.username = username;
         this.email = email;
@@ -18,6 +19,7 @@ public class UserModel {
         this.userId = userId;
         this.createdTimestamp = createdTimestamp;
         this.profileImage = profileImage;
+        this.userId=userId;
     }
 
     public UserModel()
@@ -40,5 +42,10 @@ public class UserModel {
     public String getProfileImage() { return profileImage; }
 
     public void setProfileImage(String profileImage) { this.profileImage = profileImage; }
+
+    public String getUserId() {
+
+        return userId;
+    }
 }
 

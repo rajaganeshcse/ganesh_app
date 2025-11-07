@@ -16,9 +16,10 @@ import java.util.ArrayList;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final int VIEW_TYPE_SENDER = 1;
+    private static final int VIEW_TYPE_RECEIVER = 2;
+
     ArrayList<Message> messageList;
-    final int MSG_TYPE_RIGHT = 1;
-    final int MSG_TYPE_LEFT = 2;
 
     public ChatAdapter(ArrayList<Message> messageList) {
         this.messageList = messageList;
@@ -26,33 +27,37 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (messageList.get(position).getSenderId().equals(FirebaseAuth.getInstance().getUid()))
-            return MSG_TYPE_RIGHT;
-        else
-            return MSG_TYPE_LEFT;
+        // ✅ Determine if message was sent by current user or received
+        Message message = messageList.get(position);
+        if (message.getSenderId().equals(FirebaseAuth.getInstance().getUid())) {
+            return VIEW_TYPE_SENDER;
+        } else {
+            return VIEW_TYPE_RECEIVER;
+        }
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == MSG_TYPE_RIGHT) {
-            View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_chat_right, parent, false);
-            return new RightViewHolder(v);
-        } else {
-            View v = LayoutInflater.from(parent.getContext())
+        if (viewType == VIEW_TYPE_SENDER) {
+            View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_chat_left, parent, false);
-            return new LeftViewHolder(v);
+            return new SenderViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_chat_right,parent, false);
+            return new ReceiverViewHolder(view);
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Message msg = messageList.get(position);
-        if (holder instanceof RightViewHolder) {
-            ((RightViewHolder) holder).msgText.setText(msg.getMessage());
+        Message message = messageList.get(position);
+
+        if (holder.getItemViewType() == VIEW_TYPE_SENDER) {
+            ((SenderViewHolder) holder).senderMessage.setText(message.getMessage());
         } else {
-            ((LeftViewHolder) holder).msgText.setText(msg.getMessage());
+            ((ReceiverViewHolder) holder).receiverMessage.setText(message.getMessage());
         }
     }
 
@@ -61,21 +66,23 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return messageList.size();
     }
 
-    class RightViewHolder extends RecyclerView.ViewHolder {
-        TextView msgText;
+    // ✅ ViewHolder for sender
+    static class SenderViewHolder extends RecyclerView.ViewHolder {
+        TextView senderMessage;
 
-        RightViewHolder(@NonNull View itemView) {
+        public SenderViewHolder(@NonNull View itemView) {
             super(itemView);
-            msgText = itemView.findViewById(R.id.right_msg_text);
+            senderMessage = itemView.findViewById(R.id.left_chat_textview);
         }
     }
 
-    class LeftViewHolder extends RecyclerView.ViewHolder {
-        TextView msgText;
+    // ✅ ViewHolder for receiver
+    static class ReceiverViewHolder extends RecyclerView.ViewHolder {
+        TextView receiverMessage;
 
-        LeftViewHolder(@NonNull View itemView) {
+        public ReceiverViewHolder(@NonNull View itemView) {
             super(itemView);
-            msgText = itemView.findViewById(R.id.left_msg_text);
+            receiverMessage = itemView.findViewById(R.id.right_chat_textview);
         }
     }
 }

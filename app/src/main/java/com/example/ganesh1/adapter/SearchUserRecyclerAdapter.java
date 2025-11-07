@@ -1,6 +1,7 @@
 package com.example.ganesh1.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.ganesh1.R;
+import com.example.ganesh1.chat;
 import com.example.ganesh1.model.UserModel;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -28,9 +30,11 @@ public class SearchUserRecyclerAdapter extends FirestoreRecyclerAdapter<UserMode
     @Override
     protected void onBindViewHolder(@NonNull UserViewHolder holder, int position, @NonNull UserModel model) {
 
+        // ✅ Set text fields
         holder.username.setText(model.getUsername());
         holder.phone.setText(model.getPhone());
 
+        // ✅ Load profile image using Glide
         if (model.getProfileImage() != null && !model.getProfileImage().isEmpty()) {
             Glide.with(context)
                     .load(model.getProfileImage())
@@ -39,6 +43,16 @@ public class SearchUserRecyclerAdapter extends FirestoreRecyclerAdapter<UserMode
         } else {
             holder.profileImage.setImageResource(R.drawable.person_icon);
         }
+
+        // ✅ Handle click on user item
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, chat.class);
+            intent.putExtra("uid", model.getUserId());
+            intent.putExtra("username", model.getUsername());
+            intent.putExtra("phone", model.getPhone());
+            intent.putExtra("profileImage", model.getProfileImage());
+            context.startActivity(intent);
+        });
     }
 
     @NonNull
@@ -49,6 +63,7 @@ public class SearchUserRecyclerAdapter extends FirestoreRecyclerAdapter<UserMode
         return new UserViewHolder(v);
     }
 
+    // ✅ ViewHolder class
     public static class UserViewHolder extends RecyclerView.ViewHolder {
 
         TextView username, phone;
@@ -56,11 +71,9 @@ public class SearchUserRecyclerAdapter extends FirestoreRecyclerAdapter<UserMode
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
-
             username = itemView.findViewById(R.id.user_name_text);
             phone = itemView.findViewById(R.id.phone_text);
             profileImage = itemView.findViewById(R.id.profileImage);
-
         }
     }
 }
