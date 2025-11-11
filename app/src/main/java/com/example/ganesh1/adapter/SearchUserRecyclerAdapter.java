@@ -13,8 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.ganesh1.R;
-import com.example.ganesh1.chat;
+import com.example.ganesh1.search_user;
 import com.example.ganesh1.model.UserModel;
+import com.example.ganesh1.search_user;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
@@ -46,7 +47,7 @@ public class SearchUserRecyclerAdapter extends FirestoreRecyclerAdapter<UserMode
 
         // ✅ Handle click on user item
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, chat.class);
+            Intent intent = new Intent(context, search_user.class);
             intent.putExtra("uid", model.getUserId());
             intent.putExtra("username", model.getUsername());
             intent.putExtra("phone", model.getPhone());
