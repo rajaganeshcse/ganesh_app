@@ -4,7 +4,8 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="24dp"
-    android:background="#E3F2FD">
+    android:background="#E3F2FD"
+    >
 
     <ImageView
         android:id="@+id/profileIcon"
@@ -37,7 +38,8 @@
         android:inputType="textEmailAddress"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
-        android:background="@drawable/edittext_bg"/>
+        android:background="@drawable/edittext_bg"
+        />
 
     <EditText
         android:id="@+id/loginPassword"
